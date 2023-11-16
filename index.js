@@ -171,7 +171,13 @@ const tick = () => {
         enemySpawnTimer = Math.random() * 5 + 1; 
     }
     
-    //TODO: ta bort fiender om de åker utanför canvas
+
+    enemies.forEach((enemy, index) => {
+        if (enemy.x > canvas.width || enemy.x + enemy.width < 0) {
+            enemies.splice(index, 1)
+        }
+    })
+
 
     updatePlayer();
     drawPlayer()
