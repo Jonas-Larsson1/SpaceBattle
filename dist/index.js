@@ -24,7 +24,9 @@ projectiles,
 isFiring,
 hitEffects = [], 
 playerFireDelay = 1,
-enemyFireDelay = 1
+enemyFireDelay = 1,
+finalHit,
+gameOverTimer
 
 canvas.width = 640
 canvas.height = 640
@@ -291,6 +293,7 @@ const startGame = () => {
     startButton.style.display = 'none'
     instructionsElement.style.display = 'none'
     healthElement.style.display = 'block'
+    canvas.style.cursor = 'none'
 
     score = 0
     scoreElement.innerText = `Score: ${score}`
@@ -298,6 +301,9 @@ const startGame = () => {
     healthElement.innerText = `Health: ${player.health}`
 
     enemySpawnTimer = 1
+    gameOverTimer = 3
+    finalHit = false
+
     enemies = []
     projectiles = []
     hitEffects = []
@@ -310,6 +316,7 @@ const gameOver = () => {
     startButton.style.display = 'block'
     healthElement.style.display = 'none'
     instructionsElement.style.display = 'block'
+    canvas.style.cursor = 'pointer'
 
     startButton.innerText = 'Gameover! Restart?'
     scoreElement.innerText = `Final score: ${score}`
@@ -366,11 +373,11 @@ const getAndDisplayScores = () => {
 const tick = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    if (player.health > 0) {
+    currentTick = Date.now()
+    deltaTime = (currentTick - lastTick) / 1000
+    lastTick = currentTick
 
-        currentTick = Date.now()
-        deltaTime = (currentTick - lastTick) / 1000
-        lastTick = currentTick
+    if (player.health > 0) {
         
         enemySpawnTimer -= deltaTime
         playerFireDelay -= deltaTime
@@ -443,10 +450,22 @@ const tick = () => {
         drawEnemies()
         drawProjectiles()
         drawHitEffects()
-        
         requestAnimationFrame(tick)
+
     } else {
-        gameOver()
+        gameOverTimer -= deltaTime
+
+        if (!finalHit) {
+            addHitEffect(player.x, player.y + (player.height / 2), 'orange', 500)
+            finalHit = true
+        }
+
+        drawHitEffects()
+        requestAnimationFrame(tick)
+
+        if (gameOverTimer < 0) {
+            gameOver()
+        }
     } 
 }
     
