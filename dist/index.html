@@ -23,12 +23,29 @@
         
         #start {
             font-size: 1.5rem;
+            position: fixed;
+            top: 30rem;
+        }
+
+        #instructions {
+            text-align: center;
+            position: fixed;
+            background-color: #f2f2f2;
+            padding: 1rem;
+            top: 6rem;
+        }
+
+        .info {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 90%;
         }
 
         canvas {
             border: 1px solid black;
             margin: 0.5rem;
-            cursor: crosshair;
+            cursor: none;
         }
 
         aside {
@@ -60,9 +77,17 @@
 </head>
 <body>
     <main>
+        <div id="instructions">
+            <p>Fly with arrowkeys</p><br>
+            <p>Fire with spacebar</p><br>
+            <p>Hit enemies to score points</p><br>
+            <p>Good luck!</p><br>
+        </div>
         <canvas id="canvas"></canvas>
-        <h2 id="health">Health: 5</h2>
-        <h2 id="score">Score: 0</h2>
+        <span class="info">
+            <h2 id="health">Health: 5</h2>
+            <h2 id="score">Score: 0</h2>
+        </span>
         <button id="start">Start</button>
     </main>
     <aside>

@@ -4,6 +4,7 @@ const ctx = canvas.getContext('2d')
 const scoreElement = document.getElementById('score')
 const highScoresElement = document.getElementById('high-scores')
 const healthElement = document.getElementById('health')
+const instructionsElement = document.getElementById('instructions')
 
 const clearButton = document.getElementById('clear')
 let confirmation = false
@@ -288,6 +289,7 @@ const startGame = () => {
     player.rotateRight = false;
 
     startButton.style.display = 'none'
+    instructionsElement.style.display = 'none'
     healthElement.style.display = 'block'
 
     score = 0
@@ -307,6 +309,7 @@ const startGame = () => {
 const gameOver = () => {
     startButton.style.display = 'block'
     healthElement.style.display = 'none'
+    instructionsElement.style.display = 'block'
 
     startButton.innerText = 'Gameover! Restart?'
     scoreElement.innerText = `Final score: ${score}`
@@ -386,30 +389,30 @@ const tick = () => {
                     //     }
                     // }
                     
-                    if (playerFireDelay < 0) {
-                        playerFire()
-                    }
+        if (playerFireDelay < 0) {
+            playerFire()
+        }
                     
                     
-                    enemies.forEach((enemy, index) => {
-        enemy.fireDelay -= deltaTime
-        if (enemy.fireDelay < 0) {
-            enemyFire(enemy)
-        }
-        if (enemy.x > canvas.width || enemy.x + enemy.width < 0) {
-            enemies.splice(index, 1)
-        }
-        
-    })
-    
-    projectiles.forEach((projectile, projectileIndex) => {
-        if (
-            projectile.x > canvas.width || 
-            projectile.x < 0 ||
-            projectile.y > canvas.height ||
-            projectile.y < 0) {
-                projectiles.splice(projectileIndex, 1)
+        enemies.forEach((enemy, index) => {
+            enemy.fireDelay -= deltaTime
+            if (enemy.fireDelay < 0) {
+                enemyFire(enemy)
             }
+            if (enemy.x > canvas.width || enemy.x + enemy.width < 0) {
+                enemies.splice(index, 1)
+            }
+        })
+    
+        projectiles.forEach((projectile, projectileIndex) => {
+            if (
+                projectile.x > canvas.width || 
+                projectile.x < 0 ||
+                projectile.y > canvas.height ||
+                projectile.y < 0
+                ) {
+                    projectiles.splice(projectileIndex, 1)
+                }
             
             if (checkCollision(projectile, player) && projectile.origin === 'enemy') {
                 addHitEffect(player.x, player.y + (player.height / 2), projectile.color, 10)
@@ -447,5 +450,5 @@ const tick = () => {
     } 
 }
     
-    getAndDisplayScores()
+getAndDisplayScores()
     
