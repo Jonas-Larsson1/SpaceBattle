@@ -301,7 +301,7 @@ const startGame = () => {
     healthElement.innerText = `Health: ${player.health}`
 
     enemySpawnTimer = 1
-    gameOverTimer = 3
+    gameOverTimer = 2
     finalHit = false
 
     enemies = []
@@ -313,21 +313,22 @@ const startGame = () => {
 }
 
 const gameOver = () => {
+    
     startButton.style.display = 'block'
     healthElement.style.display = 'none'
     instructionsElement.style.display = 'block'
     canvas.style.cursor = 'pointer'
-
+    
     startButton.innerText = 'Gameover! Restart?'
     scoreElement.innerText = `Final score: ${score}`
-
-    const playerName = prompt('Enter name').toUpperCase()
-
+    
+    const playerName = prompt('Enter name')
+    
     if (playerName) {
-        addScore(playerName, score)
-    }
+        addScore(playerName.toUpperCase(), score)
+    }  
 }
-
+    
 clearButton.addEventListener('click', event => {
     if (confirmation) {
         localStorage.removeItem('playerScores')
@@ -455,18 +456,19 @@ const tick = () => {
     } else {
         gameOverTimer -= deltaTime
 
-        if (!finalHit) {
-            addHitEffect(player.x, player.y + (player.height / 2), 'orange', 500)
-            finalHit = true
-        }
+        if (gameOverTimer > 0) {
+            if (!finalHit) {
+                addHitEffect(player.x, player.y + (player.height / 2), 'orange', 500)
+                finalHit = true
+            }
 
-        drawHitEffects()
-        requestAnimationFrame(tick)
+            drawHitEffects()
+            requestAnimationFrame(tick)
 
-        if (gameOverTimer < 0) {
+        } else {
             gameOver()
         }
-    } 
+    }
 }
     
 getAndDisplayScores()
