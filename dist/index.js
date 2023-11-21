@@ -200,14 +200,14 @@ class Projectile {
         this.color = color,
         this.origin = origin,
 
-        this.vx = Math.cos(this.angle) * this.acceleration * deltaTime
-        this.vy = Math.sin(this.angle) * this.acceleration * deltaTime
+        this.vx = Math.cos(this.angle) * this.acceleration 
+        this.vy = Math.sin(this.angle) * this.acceleration 
     }
 }
 
 const playerFire = () => {
     if (isFiring) {
-        const playerProjectile = new Projectile(player.x, player.y + (player.height / 2), 5, 5, player.angle, 20000, 'green', 'player')
+        const playerProjectile = new Projectile(player.x, player.y + (player.height / 2), 5, 5, player.angle, 500, 'green', 'player')
         projectiles.push(playerProjectile)
         playerFireDelay = 0.25
     }
@@ -215,7 +215,7 @@ const playerFire = () => {
 
 const enemyFire = (enemy) => {
     const angleTowardsPlayer = Math.atan2(player.y - enemy.y, player.x - enemy.x)
-    const enemyProjectile = new Projectile(enemy.x, enemy.y, 5, 5, angleTowardsPlayer, 10000, 'orange', 'enemy')
+    const enemyProjectile = new Projectile(enemy.x, enemy.y, 5, 5, angleTowardsPlayer, 200, 'orange', 'enemy')
     projectiles.push(enemyProjectile)
     enemy.fireDelay = 1
 }
@@ -313,7 +313,7 @@ const startGame = () => {
 }
 
 const gameOver = () => {
-    
+
     startButton.style.display = 'block'
     healthElement.style.display = 'none'
     instructionsElement.style.display = 'block'
